@@ -48,16 +48,16 @@ function isAuthenticated(req) {
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
-
+console.log('server hit. . .')
   // --- Webhook endpoint ---
-  if (req.method === 'POST' && parsedUrl.pathname === '/webhook/paystack') {
+  if (req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk.toString());
     req.on('end', async () => {
       try {
         const event = JSON.parse(body);
         const platform = event?.data?.metadata?.platform;
-
+        console.log(`platform, `,{platform})
         if (!platform) {
           console.warn('No platform in metadata');
           return send(res, 200, 'OK', 'text/plain');
